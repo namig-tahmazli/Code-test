@@ -1,8 +1,10 @@
 # Food delivery code test
 
 # Result
-<img src="./screenshots/restaurants_list.png" width="100" height="250" />
-<img src="./screenshots/restaurant_details.png" width="100" height="250" />
+<p float="left">
+    <img src="./screenshots/restaurants_list.png" width="300" height="750" />
+    <img src="./screenshots/restaurant_details.png" width="300" height="750" />
+</p>
 
 ## Functionality
 
