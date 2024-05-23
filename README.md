@@ -3,7 +3,6 @@
 # Result
 <p float="left">
     <img src="./screenshots/restaurants_list.png" width="300" height="700" />
-    <br><br>
     <img src="./screenshots/restaurant_details.png" width="300" height="700" />
 </p>
 
