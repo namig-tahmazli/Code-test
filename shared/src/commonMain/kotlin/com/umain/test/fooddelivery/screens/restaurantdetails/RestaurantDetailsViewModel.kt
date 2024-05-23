@@ -3,7 +3,6 @@ package com.umain.test.fooddelivery.screens.restaurantdetails
 import com.umain.test.fooddelivery.network.RemoteClient
 import com.umain.test.fooddelivery.screens.BaseViewModel
 import com.umain.test.fooddelivery.screens.restaurantslist.RestaurantModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

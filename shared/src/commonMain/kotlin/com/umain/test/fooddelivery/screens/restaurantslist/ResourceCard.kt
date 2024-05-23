@@ -18,26 +18,31 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
+import com.umain.resources.Res
+import com.umain.resources.hour
+import com.umain.resources.minute
+import com.umain.resources.time
 import com.umain.test.fooddelivery.screens.goldColor
-import io.kamel.core.Resource
 import io.kamel.image.KamelImage
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun RestaurantCard(
     modifier: Modifier = Modifier,
-    localImages: LocalImages = LocalImages.compose(),
-    image: Resource<Painter>,
     model: RestaurantModel,
     onClick: (String) -> Unit
 ) {
@@ -49,8 +54,8 @@ fun RestaurantCard(
         colors = CardDefaults.cardColors().copy(containerColor = Color.White),
     ) {
         KamelImage(
-            resource = image,
-            contentDescription = "",
+            resource = model.image.load(),
+            contentDescription = model.name,
             modifier = Modifier.height(132.dp),
             contentScale = ContentScale.Crop
         )
@@ -63,7 +68,8 @@ fun RestaurantCard(
                 Text(text = model.name, style = MaterialTheme.typography.bodyLarge)
                 Spacer(modifier = Modifier.weight(1f))
                 Image(
-                    imageVector = Icons.Default.Star, contentDescription = "",
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "Rating",
                     colorFilter = ColorFilter.tint(goldColor)
                 )
                 Text(
@@ -85,18 +91,44 @@ fun RestaurantCard(
                 modifier = Modifier.padding(bottom = 12.dp, top = 4.dp)
             ) {
                 Image(
-                    imageVector = localImages.time,
+                    imageVector = vectorResource(Res.drawable.time),
                     contentDescription = "",
                     colorFilter = ColorFilter.tint(Color.Red)
                 )
 
                 Text(
-                    text = model.deliveryTime(),
+                    text = rememberDeliveryTime(model.deliveryTime),
                     style = MaterialTheme.typography.labelSmall
                 )
             }
         }
     }
+}
+
+@Composable
+fun rememberDeliveryTime(deliveryTime: Int): String {
+    var time by remember(deliveryTime) { mutableStateOf("") }
+    if (time == "") {
+        time = calculateTime(deliveryTime)
+    }
+    return time
+}
+
+@Composable
+fun calculateTime(timeInMinutes: Int): String {
+    var result = ""
+    val hours = timeInMinutes / 60
+    val minutes = timeInMinutes % 60
+
+    if (hours > 0) {
+        result += pluralStringResource(Res.plurals.hour, hours, hours)
+    }
+
+    if (minutes > 0) {
+        result += " "
+        result += pluralStringResource(Res.plurals.minute, minutes, minutes)
+    }
+    return result
 }
 
 @OptIn(ExperimentalLayoutApi::class)

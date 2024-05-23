@@ -22,20 +22,17 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.umain.test.fooddelivery.screens.FoodDeliveryAppTheme
 import com.umain.test.fooddelivery.screens.restaurantdetails.RestaurantDetailsScreen
-import io.kamel.image.asyncPainterResource
 
 @Composable
 fun RestaurantsListView(
     modifier: Modifier = Modifier,
-    localImages: LocalImages = LocalImages.compose(),
     state: ScreenState,
     eventHandler: EventHandler
 ) {
     val navigator = LocalBottomSheetNavigator.current
-
     FoodDeliveryAppTheme {
         Scaffold(
-            topBar = { AppBar(logo = localImages.logo) },
+            topBar = { AppBar() },
             modifier = modifier.background(Color.White)
         ) {
 
@@ -62,21 +59,17 @@ fun RestaurantsListView(
                     ) {
                         itemsIndexed(state.allFilters) { index, filter ->
                             FilterChip(
-                                painter = asyncPainterResource(data = filter.imageUrl),
-                                title = filter.name,
-                                id = filter.id,
+                                model = filter,
                                 onClicked = eventHandler::onFilterClicked,
                                 modifier = Modifier.padding(
                                     start = if (index == 0) 8.dp else 0.dp
                                 ),
-                                isSelected = filter.isSelected
                             )
                         }
                     }
                 }
                 items(state.filteredRestaurants) { restaurant ->
                     RestaurantCard(
-                        image = restaurant.image(),
                         model = restaurant,
                         onClick = { navigator.show(RestaurantDetailsScreen(restaurant)) },
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)

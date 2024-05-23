@@ -12,6 +12,7 @@ import com.umain.test.fooddelivery.screens.restaurantslist.RestaurantsListScreen
 fun App(modifier: Modifier = Modifier) {
     FoodDeliveryAppTheme {
         BottomSheetNavigator {
+
             Navigator(RestaurantsListScreen())
         }
     }

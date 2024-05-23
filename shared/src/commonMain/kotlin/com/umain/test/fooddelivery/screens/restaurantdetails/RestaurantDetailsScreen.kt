@@ -1,6 +1,7 @@
 package com.umain.test.fooddelivery.screens.restaurantdetails
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import cafe.adriel.voyager.core.screen.Screen
 import com.umain.test.fooddelivery.network.RemoteClient
@@ -15,6 +16,7 @@ class RestaurantDetailsScreen(private val restaurant: RestaurantModel) : Screen 
                 restaurant,
             )
         }
-        RestaurantDetailsView(model = viewModel)
+        val state = viewModel.state.collectAsState()
+        RestaurantDetailsView(state = state.value)
     }
 }

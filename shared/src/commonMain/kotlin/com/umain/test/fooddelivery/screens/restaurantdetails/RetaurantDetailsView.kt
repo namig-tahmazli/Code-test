@@ -20,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
 import com.umain.resources.Res
 import com.umain.resources.chevron_down
@@ -40,12 +40,11 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 
 @Composable
-internal fun RestaurantDetailsView(
+fun RestaurantDetailsView(
     modifier: Modifier = Modifier,
-    model: RestaurantDetailsViewModel
+    state: ScreenState
 ) {
     val navigator = LocalBottomSheetNavigator.current
-    val state = model.state.collectAsState().value
     FoodDeliveryAppTheme {
         Scaffold { edges ->
             Box(
@@ -53,68 +52,84 @@ internal fun RestaurantDetailsView(
                 contentAlignment = Alignment.TopStart
             ) {
                 KamelImage(
-                    resource = state.restaurant.image(),
+                    resource = state.restaurant.image.load(),
                     modifier = Modifier.fillMaxWidth().height(220.dp),
                     contentDescription = "",
                     contentScale = ContentScale.Crop
                 )
 
-                IconButton(
-                    onClick = { navigator.hide() }, modifier = Modifier
-                        .padding(
-                            top = edges.calculateTopPadding() + 8.dp,
-                            start = edges.calculateStartPadding(LayoutDirection.Ltr) + 4.dp
-                        )
-                        .size(48.dp)
-                ) {
-                    Icon(
-                        imageVector = vectorResource(Res.drawable.chevron_down),
-                        contentDescription = "",
-                        tint = Color.Black,
-                        modifier = Modifier.size(32.dp)
+                CloseButton(
+                    navigator,
+                    Modifier.padding(
+                        top = edges.calculateTopPadding() + 8.dp,
+                        start = edges.calculateStartPadding(LayoutDirection.Ltr) + 4.dp
                     )
-                }
+                )
 
-                Card(
-                    elevation = CardDefaults.cardElevation(2.dp),
-                    shape = RoundedCornerShape(corner = CornerSize(16.dp)),
-                    colors = CardDefaults.cardColors().copy(containerColor = Color.White),
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
-                        .padding(top = 180.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(
-                            horizontal = 16.dp,
-                            vertical = 24.dp
-                        ),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
+                RestaurantInfoCard(state)
+            }
+        }
+    }
+}
 
-                        Text(state.restaurant.name, style = MaterialTheme.typography.headlineMedium)
-                        val filters = remember(state.restaurant) {
-                            state.restaurant.filters.map { it.name }
-                        }
-                        RestaurantFilters(filters, textStyle = MaterialTheme.typography.labelLarge)
+@Composable
+private fun CloseButton(
+    navigator: BottomSheetNavigator,
+    modifier: Modifier
+) {
+    IconButton(
+        onClick = { navigator.hide() }, modifier = modifier.size(48.dp)
+    ) {
+        Icon(
+            imageVector = vectorResource(Res.drawable.chevron_down),
+            contentDescription = "Close Button",
+            tint = Color.Black,
+            modifier = Modifier.size(32.dp)
+        )
+    }
+}
 
-                        if (state.isOpen != null) {
-                            Text(
-                                if (state.isOpen) {
-                                    stringResource(Res.string.open)
-                                } else {
-                                    stringResource(Res.string.closed)
-                                }, color = Color(0xff2ECC71)
-                            )
-                        }
+@Composable
+private fun RestaurantInfoCard(
+    state: ScreenState
+) {
+    Card(
+        elevation = CardDefaults.cardElevation(2.dp),
+        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
+        colors = CardDefaults.cardColors().copy(containerColor = Color.White),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+            .padding(top = 180.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+                vertical = 24.dp
+            ),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
 
-                        if (state.isLoading) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-                                color = Color(0xff2ECC71)
-                            )
-                        }
-                    }
-                }
+            Text(state.restaurant.name, style = MaterialTheme.typography.headlineMedium)
+            val filters = remember(state.restaurant) {
+                state.restaurant.filters.map { it.name }
+            }
+            RestaurantFilters(filters, textStyle = MaterialTheme.typography.labelLarge)
+
+            if (state.isOpen != null) {
+                Text(
+                    if (state.isOpen) {
+                        stringResource(Res.string.open)
+                    } else {
+                        stringResource(Res.string.closed)
+                    }, color = Color(0xff2ECC71)
+                )
+            }
+
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = Color(0xff2ECC71)
+                )
             }
         }
     }

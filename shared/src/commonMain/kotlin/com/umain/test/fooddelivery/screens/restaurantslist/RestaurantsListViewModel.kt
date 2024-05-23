@@ -1,12 +1,8 @@
 package com.umain.test.fooddelivery.screens.restaurantslist
 
-import androidx.compose.runtime.Composable
-import com.umain.resources.Res
-import com.umain.resources.hour
-import com.umain.resources.minute
 import com.umain.test.fooddelivery.network.RemoteClient
 import com.umain.test.fooddelivery.screens.BaseViewModel
-import io.kamel.image.asyncPainterResource
+import com.umain.test.fooddelivery.screens.ImageSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.compose.resources.pluralStringResource
 
 internal class RestaurantsListViewModel(
     private val remoteClient: RemoteClient
@@ -27,10 +22,10 @@ internal class RestaurantsListViewModel(
     val state: StateFlow<ScreenState> get() = _state.asStateFlow()
 
     init {
-        fetchRestaurantsList()
+        loadRestaurantsAndFilters()
     }
 
-    private fun fetchRestaurantsList() {
+    private fun loadRestaurantsAndFilters() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
@@ -44,7 +39,7 @@ internal class RestaurantsListViewModel(
                     FilterModel(
                         id = it.id,
                         name = it.name,
-                        imageUrl = it.imageUrl,
+                        image = ImageSource.Url(it.imageUrl),
                         isSelected = false
                     )
                 }
@@ -57,8 +52,8 @@ internal class RestaurantsListViewModel(
                         name = res.name,
                         filters = filters.filter { it.id in res.filterIds },
                         rating = res.rating.toString(),
-                        deliveryTime = { calculateTime(res.deliveryTimeInMinutes) },
-                        image = { asyncPainterResource(res.imageUrl) },
+                        deliveryTime = res.deliveryTimeInMinutes,
+                        image = ImageSource.Url(res.imageUrl),
                     )
                 }
 
@@ -73,23 +68,6 @@ internal class RestaurantsListViewModel(
                 )
             }
         }
-    }
-
-    @Composable
-    private fun calculateTime(timeInMinutes: Int): String {
-        var result = ""
-        val hours = timeInMinutes / 60
-        val minutes = timeInMinutes % 60
-
-        if (hours > 0) {
-            result += pluralStringResource(Res.plurals.hour, hours, hours)
-        }
-
-        if (minutes > 0) {
-            result += " "
-            result += pluralStringResource(Res.plurals.minute, minutes, minutes)
-        }
-        return result
     }
 
     override fun onFilterClicked(id: String) {
@@ -111,15 +89,14 @@ internal class RestaurantsListViewModel(
     private fun filterRestaurants(
         selectedFilterIds: List<String>,
         allRestaurants: List<RestaurantModel>
-    ): List<RestaurantModel> {
-        return if (selectedFilterIds.isEmpty()) {
+    ): List<RestaurantModel> =
+        if (selectedFilterIds.isEmpty()) {
             allRestaurants
         } else {
             allRestaurants.filter { res ->
                 res.filters.map(FilterModel::id).containsAll(selectedFilterIds)
             }
         }
-    }
 
     private fun selectFilters(
         filters: List<FilterModel>,
@@ -128,8 +105,4 @@ internal class RestaurantsListViewModel(
         filters.map {
             it.copy(isSelected = it.id in selectedIds)
         }
-
-    override fun onRestaurantClicked(id: String) {
-
-    }
 }

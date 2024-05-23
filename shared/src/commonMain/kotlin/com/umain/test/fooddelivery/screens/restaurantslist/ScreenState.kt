@@ -1,8 +1,6 @@
 package com.umain.test.fooddelivery.screens.restaurantslist
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.painter.Painter
-import io.kamel.core.Resource
+import com.umain.test.fooddelivery.screens.ImageSource
 
 data class ScreenState(
     val isLoading: Boolean,
@@ -27,13 +25,13 @@ data class RestaurantModel(
     val name: String,
     val filters: List<FilterModel>,
     val rating: String,
-    val deliveryTime: @Composable () -> String,
-    val image: @Composable () -> Resource<Painter>
+    val deliveryTime: Int,
+    val image: ImageSource
 )
 
 data class FilterModel(
     val id: String,
     val name: String,
-    val imageUrl: String,
-    val isSelected: Boolean
+    val image: ImageSource,
+    val isSelected: Boolean,
 )
