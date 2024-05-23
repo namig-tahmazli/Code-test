@@ -2,8 +2,8 @@
 
 # Result
 <p float="left">
-    <img src="./screenshots/restaurants_list.png" width="300" height="750" />
-    <img src="./screenshots/restaurant_details.png" width="300" height="750" />
+    <img src="./screenshots/restaurants_list.png" width="300" height="700" />
+    <img src="./screenshots/restaurant_details.png" width="300" height="700" />
 </p>
 
 ## Functionality
