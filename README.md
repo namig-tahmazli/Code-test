@@ -2,11 +2,13 @@
 
 # Result
 <p float="left">
-    <img src="./screenshots/restaurants_list.png" width="300" height="700" />
-    <img src="./screenshots/restaurant_details.png" width="300" height="700" />
+    <h>Android</h>
+    <img src="./screenshots/restaurants_list.png" width="300" height="650" />
+    <img src="./screenshots/restaurant_details.png" width="300" height="650" />
     <br>
-    <img src="./screenshots/restaurants_list.png" width="300" height="700" />
-    <img src="./screenshots/restaurant_details.png" width="300" height="700" />
+    <h>iOS</h>
+    <img src="./screenshots/restaurants_list.png" width="300" height="650" />
+    <img src="./screenshots/restaurant_details.png" width="300" height="650" />
 </p>
 
 ## Functionality
