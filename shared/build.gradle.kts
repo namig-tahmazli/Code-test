@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.serialization)
+    kotlin("native.cocoapods")
 }
 
 kotlin {
@@ -22,6 +23,17 @@ kotlin {
         it.binaries.framework {
             baseName = "shared"
             isStatic = true
+        }
+    }
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "Food Delivery App"
+        homepage = "www.umain.se"
+        ios.deploymentTarget = "17.5"
+        podfile = file("../ios/Podfile")
+        framework {
+            baseName = "shared"
         }
     }
 

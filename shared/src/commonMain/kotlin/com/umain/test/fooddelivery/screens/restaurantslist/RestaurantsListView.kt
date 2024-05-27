@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -33,7 +34,7 @@ fun RestaurantsListView(
     FoodDeliveryAppTheme {
         Scaffold(
             topBar = { AppBar() },
-            modifier = modifier.background(Color.White)
+            modifier = modifier.background(Color.White).systemBarsPadding()
         ) {
 
             if (state.isLoading) {

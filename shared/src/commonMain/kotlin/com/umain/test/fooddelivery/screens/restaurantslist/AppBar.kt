@@ -18,7 +18,7 @@ fun AppBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 44.dp, start = 16.dp)
+            .padding(start = 16.dp)
     ) {
         Image(
             imageVector = vectorResource(Res.drawable.logo),
