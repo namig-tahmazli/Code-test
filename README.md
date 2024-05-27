@@ -1,12 +1,15 @@
 # Food delivery code test
 
 # Result
+
+## Android
 <p float="left">
-    <h>Android</h>
     <img src="./screenshots/restaurants_list.png" width="300" height="650" />
     <img src="./screenshots/restaurant_details.png" width="300" height="650" />
-    <br>
-    <h>iOS</h>
+</p>
+
+## iOS
+<p float="left">
     <img src="./screenshots/restaurants_list.png" width="300" height="650" />
     <img src="./screenshots/restaurant_details.png" width="300" height="650" />
 </p>
