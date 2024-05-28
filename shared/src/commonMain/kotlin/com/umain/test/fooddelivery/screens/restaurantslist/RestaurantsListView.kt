@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.bottomSheet.LocalBottomSheetNavigator
+import com.umain.test.fooddelivery.screens.ActivityIndicator
 import com.umain.test.fooddelivery.screens.FoodDeliveryAppTheme
 import com.umain.test.fooddelivery.screens.restaurantdetails.RestaurantDetailsScreen
 
@@ -42,10 +43,7 @@ fun RestaurantsListView(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(48.dp),
-                        color = Color(0xff2ECC71)
-                    )
+                    ActivityIndicator(modifier = Modifier.size(48.dp))
                 }
             }
 

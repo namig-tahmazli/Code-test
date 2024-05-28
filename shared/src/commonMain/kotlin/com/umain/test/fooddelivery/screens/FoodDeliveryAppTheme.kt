@@ -85,3 +85,4 @@ fun FoodDeliveryAppTheme(
 }
 
 val goldColor = Color(0xFFF9CA24)
+val greenColor = Color(0xff2ECC71)
