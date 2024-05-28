@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +32,7 @@ import com.umain.resources.Res
 import com.umain.resources.chevron_down
 import com.umain.resources.closed
 import com.umain.resources.open
+import com.umain.test.fooddelivery.screens.ActivityIndicator
 import com.umain.test.fooddelivery.screens.FoodDeliveryAppTheme
 import com.umain.test.fooddelivery.screens.restaurantslist.RestaurantFilters
 import io.kamel.image.KamelImage
@@ -126,10 +126,7 @@ private fun RestaurantInfoCard(
             }
 
             if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = Color(0xff2ECC71)
-                )
+                ActivityIndicator(Modifier.size(24.dp))
             }
         }
     }
